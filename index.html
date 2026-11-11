@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="description" content="Çalışma saatleri ve maaş takibi" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Mesai Takip</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">✓</span><span>Mesai Takip</span></div>
+      <button class="icon-button" id="installButton" title="Uygulamayı yükle" hidden aria-label="Uygulamayı yükle">⇩</button>
+    </header>
+
+    <main>
+      <section id="trackerView" class="view active">
+        <section class="summary" aria-label="Aylık özet">
+          <div><span class="eyebrow" id="summaryMonth">BU AY</span><strong id="monthEarnings">₺0,00</strong><span>Şu ana kadarki kazanç</span></div>
+          <div><span class="eyebrow">NET SÜRE</span><strong id="monthHours">0 sa. 0 dk.</strong><span>Toplam çalışma saati</span></div>
+        </section>
+
+        <section class="target-card">
+          <div class="target-heading"><div><span class="eyebrow">AYLIK HEDEF</span><strong id="targetValue">₺0,00</strong></div><button class="text-button" id="editTarget">Düzenle</button></div>
+          <p id="targetHint">Aylık hedefinizi ekleyerek planınızı görün.</p>
+          <div class="progress-track"><span id="targetProgress"></span></div>
+        </section>
+
+        <section class="calendar-card">
+          <div class="calendar-header"><button class="nav-button" id="prevMonth" aria-label="Önceki ay">‹</button><h1 id="calendarTitle">Takvim</h1><button class="nav-button" id="nextMonth" aria-label="Sonraki ay">›</button></div>
+          <div class="weekdays" aria-hidden="true"><span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span>Cmt</span><span>Paz</span></div>
+          <div class="calendar-grid" id="calendar" aria-label="Çalışma takvimi"></div>
+          <p class="calendar-note">Bir güne dokunarak giriş ve çıkış saatinizi ekleyin.</p>
+        </section>
+      </section>
+
+      <section id="historyView" class="view">
+        <section class="page-heading"><span class="eyebrow">GEÇMİŞ</span><h1>Son 12 ay</h1><p>Kaydettiğiniz çalışma saatleri ve kazançlar.</p></section>
+        <div id="historyList" class="history-list"></div>
+      </section>
+
+      <section id="settingsView" class="view">
+        <section class="page-heading"><span class="eyebrow">AYARLAR</span><h1>Ücret ve veriler</h1><p>Saatlik ücretiniz bu ekranda gizli kalır.</p></section>
+        <form id="settingsForm" class="form-card">
+          <label>Saatlik ücret (₺)<input id="hourlyRate" inputmode="decimal" min="0" step="0.01" placeholder="Örn. 250" /></label>
+          <label>Varsayılan aylık hedef (₺)<input id="defaultTarget" inputmode="decimal" min="0" step="0.01" placeholder="İsteğe bağlı" /></label>
+          <button class="primary-button" type="submit">Ayarları kaydet</button>
+        </form>
+        <section class="data-card"><h2>Veriler</h2><p>Tüm bilgiler yalnızca bu cihazda saklanır.</p><button class="danger-button" id="clearData">Tüm verileri sil</button></section>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Ana menü"><button class="nav-tab active" data-view="trackerView"><span>▣</span>Takvim</button><button class="nav-tab" data-view="historyView"><span>◷</span>Geçmiş</button><button class="nav-tab" data-view="settingsView"><span>⚙</span>Ayarlar</button></nav>
+  </div>
+
+  <dialog id="dayDialog"><form method="dialog" id="dayForm"><div class="modal-header"><div><span class="eyebrow">ÇALIŞMA KAYDI</span><h2 id="dayDialogTitle">Gün</h2></div><button class="close-button" value="cancel" aria-label="Kapat">×</button></div>
+    <div class="time-fields"><label>Başlangıç<input id="startTime" type="time" required /></label><label>Bitiş<input id="endTime" type="time" required /></label></div>
+    <label class="check-label"><input id="lunchBreak" type="checkbox" /> <span><strong>30 dk. öğle molası</strong><small>Günlük net süreden düşülür.</small></span></label>
+    <p class="net-preview" id="netPreview">Net süre: —</p><p class="form-error" id="dayError" role="alert"></p>
+    <div class="modal-actions"><button type="button" id="deleteDay" class="text-button danger-text">Kaydı sil</button><span></span><button value="cancel" class="secondary-button">Vazgeç</button><button type="submit" class="primary-button">Kaydet</button></div>
+  </form></dialog>
+
+  <dialog id="targetDialog"><form method="dialog" id="targetForm"><div class="modal-header"><div><span class="eyebrow">AYLIK HEDEF</span><h2 id="targetDialogTitle">Hedef belirle</h2></div><button class="close-button" value="cancel" aria-label="Kapat">×</button></div><label>Hedef tutar (₺)<input id="targetInput" inputmode="decimal" min="0" step="0.01" required /></label><p class="form-error" id="targetError" role="alert"></p><div class="modal-actions"><button value="cancel" class="secondary-button">Vazgeç</button><button type="submit" class="primary-button">Kaydet</button></div></form></dialog>
+  <script src="app.js"></script>
+</body>
+</html>
